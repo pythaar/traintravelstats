@@ -12,8 +12,8 @@ RUN git clone https://github.com/pythaar/traintravelstats.git .
 
 RUN pip3 install -r requirements.txt
 
-EXPOSE 8503
+EXPOSE 27053
 
-HEALTHCHECK CMD curl --fail http://localhost:8503/_stcore/health
+HEALTHCHECK CMD curl --fail http://localhost:27053/_stcore/health
 
-ENTRYPOINT ["shiny", "run", "src/app.py", "--port=8503"]
+ENTRYPOINT ["shiny", "run", "src/app.py", "--port=27053"]
