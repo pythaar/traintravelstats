@@ -1,0 +1,4 @@
+.env/
+nohup.out
+__pycache__
+config.py
