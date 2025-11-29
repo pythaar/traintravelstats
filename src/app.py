@@ -1,11 +1,15 @@
 import pandas as pd
 import json
 from shiny import App, render, ui, reactive
+from shinywidgets import output_widget, render_widget
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import faicons as fa
 import numpy as np
-from datetime import datetime
+from ipyleaflet import Map, Marker
+import sys
+import os
+from datetime import datetime, date
 GIT_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(GIT_PATH)
 from config import DB_URL
@@ -17,8 +21,49 @@ from src.db_management import TrainsDB
 
 database = TrainsDB(DB_URL)
 
-unique_years = sorted(init_df["Year"].unique().tolist())
-unique_types = sorted(init_df["Type"].unique().tolist())
+unique_years = database.get_years()
+unique_types = database.get_companies()
+actual_year = datetime.now().year
+
+def get_n_days(annees):
+    aujourd_hui = date.today()
+    total_jours = 0
+
+    for annee in annees:
+        annee = int(annee)
+        if annee == 2024:
+            debut = date(2024, 12, 13)
+            fin = date(2024, 12, 31)
+            total_jours += (fin - debut).days + 1
+        elif annee < aujourd_hui.year:
+            debut = date(annee, 1, 1)
+            fin = date(annee, 12, 31)
+            total_jours += (fin - debut).days + 1
+        elif annee == aujourd_hui.year:
+            debut = date(annee, 1, 1)
+            total_jours += (aujourd_hui - debut).days + 1
+
+    return total_jours
+
+def get_n_month(annees):
+    aujourd_hui = date.today()
+    total_month = 0
+
+    for annee in annees:
+        annee = int(annee)
+        if annee == 2024:
+            total_month += 1
+        elif annee < aujourd_hui.year:
+            total_month += 12
+        elif annee == aujourd_hui.year:
+            debut = date(annee, 1, 1)
+            fin = date(annee, 12, 31)
+            n_days_spent = (aujourd_hui - debut).days + 1
+            n_days_total = (fin - debut).days + 1
+            
+            total_month += n_days_spent * 12 / n_days_total
+
+    return total_month
 
 def minToString(minutes):
     heures = int(minutes // 60)
@@ -30,6 +75,20 @@ def minToString(minutes):
         return f"{heures}h"
     else:
         return f"{heures}h {mins_restantes}mins"
+
+def time_to_string(time):
+    
+    if not time:
+        return "No data"
+    days = int(time // (24 * 60))
+    hours = int((time % (24 * 60)) // 60)
+    minutes = int(time % 60)
+    if not days and not hours:
+        return f"{minutes}mins"
+    elif not days:
+        return f"{hours}h & {minutes}mins"
+    else:
+        return f"{days}d, {hours}h & {minutes}mins"    
     
 def getOriginDestinationMax(df, column, text, unit):
     
@@ -62,30 +121,13 @@ def getMaxPerDay(df, column, name, unit):
     else:
         return f"Max {name} in a day: {max_value}{unit}"
     
-def getNDaysSpent(yearList):
-    
-    ndays = 0
-    today = datetime.now()
-    actual_year = today.year
-    for year in yearList:
-        if year == 2024:
-            ndays += 19
-        elif year == actual_year:
-            year_start = datetime(actual_year, 1, 1)
-            ndays += (today - year_start).days + 1
-        else:
-            if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):
-                ndays += 366
-            else:
-                ndays += 365
-    return ndays
     
 
 
 app_ui = ui.page_fluid(
     ui.layout_sidebar(ui.sidebar(
-            ui.input_checkbox_group("years", "Select years", choices=unique_years, selected=[2025]),
-            ui.input_checkbox_group("types", "Select train types", choices=unique_types, selected=unique_types),
+            ui.input_checkbox_group("years", "Select years", choices=unique_years, selected=[actual_year]),
+            ui.input_checkbox_group("company", "Select train company", choices=unique_types, selected=unique_types),
             width=300),
     ui.h1("Personal train stats", style="text-align: center"),
     ui.layout_columns(
@@ -116,112 +158,154 @@ app_ui = ui.page_fluid(
         ),
         fill=False,
     ),
-    ui.layout_columns(ui.output_plot("traintaken_pl"), (ui.h2("Global stats", style="text-align: center"), ui.output_data_frame("table"))),
-    ui.layout_columns(ui.output_plot("piedelay"), ui.output_plot("delayevolv")), 
-    ui.output_text("factos"),
-    ui.output_text("earliest"),
-    ui.output_text("factos1"),
-    ui.output_text("factos2"),
-    ui.output_text("factos3"),
-    ui.output_text("factos4"),
-    ui.output_text("factos5"),
-    ui.output_text("factos6"),
-    ui.output_text("kmperday"),
-    ui.output_text("timeperday"),
-    ui.output_data_frame("compagnytable"),
+    ui.layout_columns(
+        ui.value_box(
+            "Daily stats", ui.output_ui("daily_distance"),ui.output_ui("daily_time"), showcase=fa.icon_svg("calendar-days")
+        ),
+        ui.value_box(
+            "Weekly stats", ui.output_ui("weekly_distance"),ui.output_ui("weekly_time"), showcase=fa.icon_svg("calendar-week")
+        ),
+        ui.value_box(
+            "Monthly stats", ui.output_ui("monthly_distance"),ui.output_ui("monthly_time"), showcase=fa.icon_svg("calendar")
+        ),
+        fill=False,
+    ),
+    ui.layout_columns(ui.output_plot("piedelay"), 
+                      #ui.output_plot("delayevolv")
+                      ), 
+    ui.layout_columns(ui.output_plot("traintaken_pl"), (ui.h2("Global stats", style="text-align: center"), ui.output_data_frame("stat_table"))),
+    ui.h2("Visited station map"),
+    ui.page_fluid(output_widget("map")),
+    #ui.output_text("factos"),
+    #ui.output_text("earliest"),
+    #ui.output_text("factos1"),
+    #ui.output_text("factos2"),
+    #ui.output_text("factos3"),
+    #ui.output_text("factos4"),
+    #ui.output_text("factos5"),
+    #ui.output_text("factos6"),
+    #ui.output_text("kmperday"),
+    #ui.output_text("timeperday"),
+    #ui.output_data_frame("compagnytable"),
     
 ))
 
 # Define the server logic
 def server(input, output, session):
     @reactive.calc
-    def filtered_data():
-        with open('database.json', 'r') as json_input:
-            json_db = json.load(json_input)
-        df = pd.DataFrame(json_db["trainList"])
-        yearsList = list(map(int, input.years()))
-        df = df[df["Year"].isin(yearsList)]
-        df = df[df["Type"].isin(input.types())]
-        return df
+    def update_db():
+        database.update_filter(input.years(), input.company())
 
     @output
     @render.text
     def ntrain():
-        total = filtered_data().shape[0]
-        return total
+        update_db()
+        n_trains = database.get_n_train()
+        return n_trains
     
     @output
     @render.text
     def time():
-        total = filtered_data()["TravelTime"].sum()
-        days = total // (24 * 60)
-        hours = (total % (24 * 60)) // 60
-        minutes = total % 60
-        return f"{days}d, {hours}h & {minutes}mins"
+        update_db()
+        total_time = database.get_sum('traveltime')
+        return time_to_string(total_time)
+    
+    @output
+    @render.text
+    def daily_time():
+        update_db()
+        total_time = database.get_sum('traveltime')
+        total_days = get_n_days(input.years())
+        return time_to_string(total_time/total_days) if total_days else "0 min"
+    
+    @output
+    @render.text
+    def weekly_time():
+        update_db()
+        total_time = database.get_sum('traveltime')
+        total_week = get_n_days(input.years())/7
+        return time_to_string(total_time/total_week) if total_week else "0 min"
+    
+    @output
+    @render.text
+    def monthly_time():
+        update_db()
+        total_time = database.get_sum('traveltime')
+        total_month = get_n_month(input.years())
+        return time_to_string(total_time/total_month) if total_month else "0 min"
     
     @output
     @render.text
     def totaldelay():
-        total = filtered_data()["Delay"].sum()
-        days = total // (24 * 60)
-        hours = (total % (24 * 60)) // 60
-        minutes = total % 60
-        return f"{days}d, {hours}h & {minutes}mins"
+        update_db()
+        total_delay = database.get_sum('delay')
+        return time_to_string(total_delay)
     
     @output
     @render.text
     def speed():
-        total = round(filtered_data()["Speed"].mean(), 2)
-        return f"{total} km/h"
-    
-    @output
-    @render.text
-    def meandelay():
-        total = round(filtered_data()["Delay"].mean(), 2)
-        return f"Average delay: {total} min"
-    
-    @output
-    @render.text
-    def mediandelay():
-        total = filtered_data()["Delay"].median()
-        return f"Median delay: {int(total)} min"
-    
-    @output
-    @render.text
-    def maxdelay():
-        total = filtered_data()["Delay"].max()
-        return f"Max delay: {total} min"
+        update_db()
+        avg_speed = database.get_avg('speed')
+        return round(avg_speed, 2) if avg_speed else "No data"
     
     @output
     @render.text
     def nstation():
-        total = filtered_data()
-        unique_values = pd.concat([total['Origin'], total['Destination']]).nunique()
-        return unique_values
+        update_db()
+        return database.get_n_station()
     
     @output
     @render.text
     def distance():
-        total = round(filtered_data()["Distance"].sum(), 2)
-        return f"{total} km"
-
-    @output
-    @render.text
-    def averagerelative():
-        total = round(filtered_data()["RelativeDuration"].mean(), 2)
-        return f"Average relative duration: {total} %"
+        update_db()
+        total_distance = database.get_sum('distance')
+        return f"{round(total_distance, 2)} km" if total_distance else "0 km"
     
     @output
     @render.text
-    def medianrelative():
-        total = filtered_data()["RelativeDuration"].median()
-        return f"Mean relative duration: {total} %"
+    def daily_distance():
+        update_db()
+        total_distance = database.get_sum('distance')
+        total_days = get_n_days(input.years())
+        return f"{round(total_distance/total_days, 2)} km" if total_distance else "0 km"
+    
+    @output
+    @render.text
+    def weekly_distance():
+        update_db()
+        total_distance = database.get_sum('distance')
+        total_week = get_n_days(input.years())/7
+        return f"{round(total_distance/total_week, 2)} km" if total_distance else "0 km"
+    
+    @render.text
+    def monthly_distance():
+        update_db()
+        total_distance = database.get_sum('distance')
+        total_month = get_n_month(input.years())
+        return f"{round(total_distance/total_month, 2)} km" if total_distance else "0 km"
     
     @output
     @render.text
     def maxrelative():
         total = filtered_data()["RelativeDuration"].max()
         return f"Max relative duration: {total} %"
+
+    @render_widget  
+    def map():
+        update_db()
+        unic_station = database.get_unic_station()
+        with open(os.path.join(os.getcwd(), 'database', 'stations_info.json'), 'r') as jsonInp:
+            stationdb = json.load(jsonInp)
+        center = (54.5260, 15.2551)
+        m = Map(center=center, zoom=4)
+        
+        for station in unic_station:
+            if station in stationdb:  # Vérifie que le lieu existe dans le dictionnaire
+                marker = Marker(location=stationdb[station]['Coords'], title=station)
+                m.add_layer(marker)
+        
+        
+        return m
     
     @render.text
     def factos():
@@ -254,32 +338,18 @@ def server(input, output, session):
     def factos6():
         df = filtered_data()
         return getMaxPerDay(df, "TravelTime", "travel time", "hm")
-    @render.text
-    def kmperday():
-        ndays = getNDaysSpent(list(map(int, input.years())))
-        df = filtered_data()
-        averageperday = round(df['Distance'].sum()/ndays, 2)
-        return f'Average distance per day: {averageperday}km'
-    @render.text
-    def timeperday():
-        ndays = getNDaysSpent(list(map(int, input.years())))
-        df = filtered_data()
-        averageperday = round(df['TravelTime'].sum()/ndays)
-        return f'Average travel time per day: {minToString(averageperday)}'
         
 
     @output
     @render.plot
     def traintaken_pl():
-        data = filtered_data()
+        update_db()
         
-        grouped_data = data.groupby(["Year", "Month"], observed=False).size().reset_index(name="count")
-        grouped_data["year_month"] = grouped_data["Month"].astype(str).str.zfill(2) + "-" + grouped_data["Year"].astype(str)
-        x_axis = grouped_data["year_month"]
-            
+        x_axis, y_values = database.get_monthly_train_counts()
+
         title = "Train taken by month"
         fig, ax = plt.subplots()
-        ax.plot(x_axis, grouped_data["count"], color="skyblue")
+        ax.plot(x_axis, y_values, color="skyblue")
         ax.set_xlabel("Date")
         ax.set_ylabel("Number of train taken")
         ax.set_title(title)
@@ -291,30 +361,21 @@ def server(input, output, session):
     @output
     @render.plot
     def piedelay():
-        df = filtered_data()
-        
-        bins = [-float('inf'), -1, 1, 5, 10, 30, float('inf')]
-        labels = ['Early', 'On time', 'Low delay (<5 min)', 
-                'Delay (between 5 and 10)', 'Big delay (between 10 and 30)', 'Very big delay (>30 min)']
-
-        df['Catégorie'] = pd.cut(df['Delay'], bins=bins, labels=labels)
-
-        category_counts = df['Catégorie'].value_counts()
-        category_counts = category_counts.reindex(labels, fill_value=0)
-
+        update_db()
+        labels, values = database.get_delay_categories()
+        if sum(values) == 0:
+            values[1] = 1
         colors = mcolors.LinearSegmentedColormap.from_list("green_to_red", ["green", "yellow", "red"])(np.linspace(0, 1, len(labels)))
-        label_color_dict = {label: color for label, color in zip(labels, colors)}
-        colors_for_plot = [label_color_dict[label] for label in category_counts.index]
         fig, ax = plt.subplots()
-        #ax.pie(category_counts, labels=category_counts.index, autopct='%1.1f%%', colors=colors_for_plot)
-        wedges, texts, autotexts = ax.pie(category_counts, colors=colors, shadow=True, autopct='%1.1f%%')
+        wedges, texts, autotexts = ax.pie(values, colors=colors, shadow=True, autopct='%1.1f%%')
         plt.legend(wedges, labels, title="Categories", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
         ax.set_title("Delay pie chart")
         plt.tight_layout()
         
         return fig
+
     
-    @output
+    """@output
     @render.data_frame
     def compagnytable():
         
@@ -335,120 +396,43 @@ def server(input, output, session):
         stats_df["Mean Relative Duration [%]"] = reladf['mean rela']
         stats_df = stats_df.sort_values(by='N train')
 
-        """fig, ax = plt.subplots()
-        ax.axis("off")
-
-        table = ax.table(
-            cellText=stats_df.values,
-            colLabels=stats_df.columns,
-            cellLoc="center",
-            loc="center",
-            colColours=["#87CEEB"] * len(stats_df.columns),
-            cellColours=[["#e9e9e9"] * len(stats_df.columns)] * len(stats_df)
-        )
-
-        table.auto_set_font_size(False)
-        table.set_fontsize(12)
-        table.scale(1.2, 1.2)
-
-        plt.title("Global stats", pad=20, fontsize=14, fontweight="bold")
-
-        plt.tight_layout()"""
         
         #return fig
         return render.DataGrid(stats_df)
-        return stats_df
+        return stats_df"""
     
     @output
     @render.data_frame
-    def table():
-        
-        df = filtered_data()
-        
-        stats =  {" ": ["Delay [min]", "Relative duration", "Distance [km]", "Travel time", "Speed [km/h]"],
-            "Max": [df["Delay"].max(),
-                    f"{df['RelativeDuration'].max()}%",
-                    df["Distance"].max(),
-                    minToString(df["TravelTime"].max()),
-                    df["Speed"].max()],
-            "Min": [df["Delay"].min(),
-                    f"{df['RelativeDuration'].min()}%",
-                    df["Distance"].min(),
-                    minToString(df["TravelTime"].min()),
-                    df["Speed"].min()],
-            "Mean": [
-                    round(df["Delay"].mean(), 2),
-                    f"{round(df['RelativeDuration'].mean(), 2)}%",
-                    round(df["Distance"].mean(), 2),
-                    minToString(df["TravelTime"].mean()),
-                    round(df["Speed"].mean(), 2)],
-            "Median": [
-                    df["Delay"].median(),
-                    f"{df['RelativeDuration'].median()}%",
-                    df["Distance"].median(),
-                    minToString(df["TravelTime"].median()),
-                    df["Speed"].median()
-                    ]}
-
-        stats_df = pd.DataFrame(stats)
-
-        """fig, ax = plt.subplots()
-        ax.axis("off")
-
-        table = ax.table(
-            cellText=stats_df.values,
-            colLabels=stats_df.columns,
-            cellLoc="center",
-            loc="center",
-            colColours=["#87CEEB"] * len(stats_df.columns),
-            cellColours=[["#e9e9e9"] * len(stats_df.columns)] * len(stats_df)
-        )
-
-        table.auto_set_font_size(False)
-        table.set_fontsize(12)
-        table.scale(1.2, 1.2)
-
-        plt.title("Global stats", pad=20, fontsize=14, fontweight="bold")
-
-        plt.tight_layout()
-        
-        return fig"""
-        return render.DataTable(stats_df)
+    def stat_table():
+            
+        update_db()
+        return render.DataTable(database.get_stat_table())
     
     @output
     @render.plot
     def delayevolv():
-        df = filtered_data()
-        
-        bins = [-float('inf'), -1, 1, 5, 10, 30, float('inf')]
+        update_db()
+        grouped_percentage = database.get_delay_evolution()
+
         labels = ['Early', 'On time', 'Low delay (<5 min)', 
                 'Delay (between 5 and 10)', 'Big delay (between 10 and 30)', 'Very big delay (>30 min)']
-
-        df['DelayCat'] = pd.cut(df['Delay'], bins=bins, labels=labels)
-        grouped = df.groupby(['Month', 'Year', 'DelayCat'], observed=False).size().unstack(fill_value=0)
-        grouped_percentage = grouped.div(grouped.sum(axis=1), axis=0) * 100
-        couples_mois_annee = grouped_percentage.index.to_list()
-        couples_mois_annee.sort(key=lambda x: (x[1], x[0])) 
-        grouped_percentage = grouped_percentage.loc[couples_mois_annee]
-        
         colors = mcolors.LinearSegmentedColormap.from_list("green_to_red", ["green", "yellow", "red"])(np.linspace(0, 1, len(labels)))
-        fig, ax = plt.subplots()
-        labels_x = [str(month).zfill(2)+ "-" + str(year) for month, year in grouped_percentage.index]
 
-        for i, category in enumerate(grouped_percentage.columns):
-            ax.plot(labels_x, grouped_percentage[category], label=category, color=colors[i])
+        fig, ax = plt.subplots()
+        labels_x = [str(month).zfill(2) + "-" + str(year) for month, year in grouped_percentage.index]
+
+        for i, category in enumerate(labels):
+            if category in grouped_percentage.columns:
+                ax.plot(labels_x, grouped_percentage[category], label=category, color=colors[i])
 
         ax.set_xlabel('Date')
         ax.set_ylabel('Delay [%]')
         ax.set_title('Delay evolution')
-        #ax.legend(title='Categories', bbox_to_anchor=(1.05, 1), loc='upper left')
-
         plt.xticks(rotation=45)
-        #ax.grid(True, linestyle='--', alpha=0.6)
-
         plt.tight_layout()
 
         return fig
+
 
 
 

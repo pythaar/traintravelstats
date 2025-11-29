@@ -1,0 +1,764 @@
+{
+  "Amiens": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.8899171583,
+      2.30927649449
+    ]
+  },
+  "Longueau": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.8637887546,
+      2.35217507429
+    ]
+  },
+  "Corbie": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.9124738081,
+      2.50154600621
+    ]
+  },
+  "Albert": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.0058612692,
+      2.64458257645
+    ]
+  },
+  "Achiet": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.132140931,
+      2.78062210165
+    ]
+  },
+  "Arras": {
+    "Compagny": [
+      "TER HDF",
+      "TGV INOUI"
+    ],
+    "Coords": [
+      50.2864957665,
+      2.78196693428
+    ]
+  },
+  "Douai": {
+    "Compagny": [
+      "TER HDF",
+      "TGV INOUI"
+    ],
+    "Coords": [
+      50.3715821291,
+      3.09043091426
+    ]
+  },
+  "Lille Flandres": {
+    "Compagny": [
+      "TER HDF",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      50.636806,
+      3.071793
+    ]
+  },
+  "Boulogne Ville": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.7134824468,
+      1.60844108288
+    ]
+  },
+  "Etaples Le Touquet": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.5167193558,
+      1.64284259871
+    ]
+  },
+  "Rang du Fliers": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.4155552501,
+      1.64845004577
+    ]
+  },
+  "Rue": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.2731757644,
+      1.67588343166
+    ]
+  },
+  "Noyelles sur mer": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.1873874935,
+      1.70477777281
+    ]
+  },
+  "Abbeville": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.1019712053,
+      1.82429997932
+    ]
+  },
+  "Pont Remy": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.0472445823,
+      1.89893934587
+    ]
+  },
+  "Longpre les Corps Saints": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.0112994165,
+      2.00306022553
+    ]
+  },
+  "Hangest": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.9821349098,
+      2.06657374331
+    ]
+  },
+  "Picquigny": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.9461497755,
+      2.14329002349
+    ]
+  },
+  "Ailly sur Somme": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.9284682367,
+      2.200728632
+    ]
+  },
+  "Saint Roch": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.8932383628,
+      2.28368802643
+    ]
+  },
+  "Creil": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.264336965,
+      2.46933851337
+    ]
+  },
+  "Paris Gare du Nord": {
+    "Compagny": [
+      "TER HDF",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      48.8816419415,
+      2.35616002226
+    ]
+  },
+  "Aulnoye Aymeries": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.1971732243,
+      3.84368363067
+    ]
+  },
+  "Saint Quentin": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.8397607096,
+      3.29709887004
+    ]
+  },
+  "Tergnier": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.657025416,
+      3.29602916343
+    ]
+  },
+  "Compiegne": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.4223660723,
+      2.82382278188
+    ]
+  },
+  "Rennes": {
+    "Compagny": [
+      "BREIZHGO",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      48.1031158257,
+      -1.67288128566
+    ]
+  },
+  "Redon": {
+    "Compagny": [
+      "BREIZHGO",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      47.651784822,
+      -2.08852184367
+    ]
+  },
+  "Vannes": {
+    "Compagny": [
+      "BREIZHGO",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      47.6652097923,
+      -2.75240388143
+    ]
+  },
+  "Auray": {
+    "Compagny": [
+      "BREIZHGO",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      47.6802456134,
+      -2.9995954826
+    ]
+  },
+  "Lorient": {
+    "Compagny": [
+      "BREIZHGO",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      47.7551211415,
+      -3.3662896238
+    ]
+  },
+  "Quimperle": {
+    "Compagny": [
+      "BREIZHGO",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      47.8693099943,
+      -3.55298895132
+    ]
+  },
+  "Quimper": {
+    "Compagny": [
+      "BREIZHGO",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      47.9948683709,
+      -4.09252329904
+    ]
+  },
+  "Savenay": {
+    "Compagny": [
+      "BREIZHGO",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      47.3583982415,
+      -1.95107747612
+    ]
+  },
+  "Nantes": {
+    "Compagny": [
+      "BREIZHGO",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      47.2164535013,
+      -1.54423027495
+    ]
+  },
+  "Paris Montparnasse": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      48.8406428434,
+      2.31982050131
+    ]
+  },
+  "Massy": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      48.7278855705,
+      2.26406689735
+    ]
+  },
+  "Orchies": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.4762004059,
+      3.25247017642
+    ]
+  },
+  "Saint Amand les Eaux": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.4417361169,
+      3.42157798126
+    ]
+  },
+  "Valenciennes": {
+    "Compagny": [
+      "TER HDF",
+      "TGV INOUI"
+    ],
+    "Coords": [
+      50.3623050457,
+      3.51563327282
+    ]
+  },
+  "Le Poirier Universite": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.3256405292,
+      3.50262609527
+    ]
+  },
+  "Le Quesnoy": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.2454592408,
+      3.65985497219
+    ]
+  },
+  "Berlaimont": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.194020809,
+      3.81946340853
+    ]
+  },
+  "Gare aux Betteraves": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      49.8577633609,
+      2.83203890919
+    ]
+  },
+  "Lille Europe": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO",
+      "EUROSTAR"
+    ],
+    "Coords": [
+      50.6393715807,
+      3.07535868101
+    ]
+  },
+  "Roissy CDG": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      49.0039901179,
+      2.57122319705
+    ]
+  },
+  "Marne la Vallee Chessy": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      48.8699090644,
+      2.78267555456
+    ]
+  },
+  "Le Mans": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      47.9949627836,
+      0.19373767762
+    ]
+  },
+  "Angers Saint Laud": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      47.4643699196,
+      -0.556795221044
+    ]
+  },
+  "Calais Ville": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      50.9534158869,
+      1.85047599158
+    ]
+  },
+  "Calais Frethun": {
+    "Compagny": [
+      "TER HDF",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      50.9015707876,
+      1.81155540287
+    ]
+  },
+  "Annemasse": {
+    "Compagny": [
+      "LEX",
+      "TER AURA"
+    ],
+    "Coords": [
+      46.2004871968,
+      6.23823814857
+    ]
+  },
+  "Thonon les Bains": {
+    "Compagny": [
+      "LEX",
+      "TER AURA"
+    ],
+    "Coords": [
+      46.3691930447,
+      6.48271855025
+    ]
+  },
+  "Longeray": {
+    "Compagny": [
+      "TER AURA"
+    ],
+    "Coords": [
+      46.1121444926,
+      5.88494864433
+    ]
+  },
+  "Bellegarde": {
+    "Compagny": [
+      "TER AURA",
+      "TGV LYRIA"
+    ],
+    "Coords": [
+      46.113539173,
+      5.82466982263
+    ]
+  },
+  "Paris Gare de Lyon": {
+    "Compagny": [
+      "TGV LYRIA",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      48.8443115243,
+      2.37564528552
+    ]
+  },
+  "Macon Loche TGV": {
+    "Compagny": [
+      "TGV LYRIA",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      46.2827818189,
+      4.77844322895
+    ]
+  },
+  "Bourg en Bresse": {
+    "Compagny": [
+      "TGV LYRIA"
+    ],
+    "Coords": [
+      46.1994831529,
+      5.21499778759
+    ]
+  },
+  "Lyon Part Dieu": {
+    "Compagny": [
+      "TER AURA",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      45.7605405395,
+      4.86020080367
+    ]
+  },
+  "Lyon Saint Clair": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      45.7911269655,
+      4.86211355972
+    ]
+  },
+  "Valence TGV": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      44.9927421533,
+      4.97854925737
+    ]
+  },
+  "Avignon TGV": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      43.921852204,
+      4.78598868
+    ]
+  },
+  "Aix en Provence TGV": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      43.4552365701,
+      5.3173067554
+    ]
+  },
+  "Marseille Saint Charles": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      43.3028821962,
+      5.38088156457
+    ]
+  },
+  "Saint Nazaire": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      47.2867636395,
+      -2.2113247996
+    ]
+  },
+  "Mennessis": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.6921765571,
+      3.27023536527
+    ]
+  },
+  "Villers Bretonneux": {
+    "Compagny": [
+      "TER HDF"
+    ],
+    "Coords": [
+      49.8626291013,
+      2.52158266301
+    ]
+  },
+  "Londres": {
+    "Compagny": [
+      "EUROSTAR"
+    ],
+    "Coords": [
+      51.53224223022,
+      -0.1267713505869694
+    ]
+  },
+  "Paris Gare de l Est": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO",
+      "TER FLUO"
+    ],
+    "Coords": [
+      48.8773708732,
+      2.35892610772
+    ]
+  },
+  "Noisy le Sec": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO",
+      "TER FLUO"
+    ],
+    "Coords": [
+      48.8967504288,
+      2.45992179718
+    ]
+  },
+  "Vaires Torcy": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO",
+      "TER FLUO"
+    ],
+    "Coords": [
+      48.8753517515,
+      2.63981241422
+    ]
+  },
+  "Champagne Ardenne TGV": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO",
+      "TER FLUO"
+    ],
+    "Coords": [
+      49.21368002,
+      3.99569433232
+    ]
+  },
+  "Meuse TGV": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO",
+      "TER FLUO"
+    ],
+    "Coords": [
+      48.9785063408,
+      5.27371450709
+    ]
+  },
+  "Lorraine TGV": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO",
+      "TER FLUO"
+    ],
+    "Coords": [
+      48.9479957006,
+      6.1732863083
+    ]
+  },
+  "Vendenheim": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO",
+      "TER FLUO"
+    ],
+    "Coords": [
+      48.6654040014,
+      7.71821812684
+    ]
+  },
+  "Strasbourg": {
+    "Compagny": [
+      "TGV INOUI",
+      "OUIGO",
+      "TER FLUO"
+    ],
+    "Coords": [
+      48.5828702552,
+      7.73159495317
+    ]
+  },
+  "Colmar": {
+    "Compagny": [
+      "TER FLUO",
+      "TGV INOUI",
+      "OUIGO"
+    ],
+    "Coords": [
+      48.0731722815,
+      7.34694339731
+    ]
+  }
+}
